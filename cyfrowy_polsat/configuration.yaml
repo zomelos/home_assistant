@@ -1,0 +1,23 @@
+sensor:
+  - platform: command_line
+    name: "CP LTE data prepare"
+    scan_interval: 15
+    command: "curl -s -d 'loginName=<ROUTER_LOGIN>&loginPassword=<ROUTER_PASSWORD>' 'http://<ROUTER_IP>/goform/formLogin' | grep -q 'home.asp' || exit 1 && curl -s 'http://<ROUTER_IP>/idu/bodyinfo_lte.asp' > cp_lte_data.html"
+  - platform: command_line
+    name: CP LTE SINR
+    command: "cat cp_lte_data.html | grep 'a = \\[' | sed -r 's/a = \\[(.*)\\];/\\1/g' | cut -d ',' -f 22 | sed -r 's/^.* (\\-?[0-9]+).*/\\1/g'"
+    scan_interval: 20
+    value_template: "{{ value|int }}"
+    unit_of_measurement: "dB"
+  - platform: command_line
+    name: CP LTE RSRQ
+    command: "cat cp_lte_data.html | grep 'a = \\[' | sed -r 's/a = \\[(.*)\\];/\\1/g' | cut -d ',' -f 10 | sed -r 's/^.* (\\-?[0-9]+).*/\\1/g'"
+    scan_interval: 20
+    value_template: "{{ value|int }}"
+    unit_of_measurement: "dB"
+  - platform: command_line
+    name: CP LTE RSRP
+    command: "cat cp_lte_data.html | grep 'a = \\[' | sed -r 's/a = \\[(.*)\\];/\\1/g' | cut -d ',' -f 11 | sed -r 's/^.* (\\-?[0-9]+).*/\\1/g'"
+    scan_interval: 20
+    value_template: "{{ value|int }}"
+    unit_of_measurement: "dBm"

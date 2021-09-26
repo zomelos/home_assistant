@@ -1,0 +1,25 @@
+cards:
+  - entity: sensor.cp_lte_rsrp
+    max: -44
+    min: -140
+    severity:
+      green: -115
+      red: -90
+      yellow: -110
+    type: gauge
+    name: RSRP
+  - entity: sensor.cp_lte_rsrq
+    max: -3
+    min: -20
+    severity:
+      green: -15
+      red: -10
+      yellow: -13
+    type: gauge
+    name: RSRQ
+  - entity: sensor.cp_lte_sinr
+    max: 30
+    min: -20
+    type: gauge
+    name: SINR
+type: horizontal-stack
